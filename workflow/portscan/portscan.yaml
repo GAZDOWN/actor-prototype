@@ -131,6 +131,7 @@ python:
         
         try: 
             result = port_scan("127.0.0.1")
+
             import pprint
             pprint.pprint(result)
     
