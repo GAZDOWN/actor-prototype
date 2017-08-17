@@ -4,26 +4,36 @@ import socket
 import nmap
 
 
+class PortScanException(Exception):
+    pass
+
+
 class PortList(dict):
     PROTO_TCP = "tcp"
     PROTO_UDP = "udp"
 
+    MIN_PORT = 1
+    MAX_PORT = 65535
+
     def __init__(self):
         super(PortList, self).__init__()
 
-        self[self.PROTO_TCP] = {} 
+        self[self.PROTO_TCP] = {}
         self[self.PROTO_UDP] = {}
 
     def _raise_for_protocol(self, protocol):
-        if not protocol in self.get_protocols():
+        if protocol not in self.get_protocols():
             raise ValueError("Invalid protocol: {}".format(str(protocol)))
 
-    def set_port(self, protocol, source, data = None):
+    def set_port(self, protocol, source, data=None):
         self._raise_for_protocol(protocol)
 
-        self[protocol][int(source)] = data
+        if int(source) >= self.MIN_PORT and int(source) <= self.MAX_PORT:
+            self[protocol][int(source)] = data
+        else:
+            raise ValueError("Port must be in interval <{}; {}>".format(self.MIN_PORT, self.MAX_PORT))
 
-    def set_tcp_port(self, source, target = None):
+    def set_tcp_port(self, source, target=None):
         self.set_port(self.PROTO_TCP, source, target)
 
     def unset_port(self, protocol, source):
@@ -32,7 +42,7 @@ class PortList(dict):
         if not self.has_port(protocol, source):
             raise ValueError("Invalid port: {}".format(str(source)))
 
-        del self[protocol][source]
+        del self[protocol][int(source)]
 
     def unset_tcp_port(self, source):
         self.unset_port(self.PROTO_TCP, source)
@@ -48,7 +58,7 @@ class PortList(dict):
     def has_port(self, protocol, source):
         self._raise_for_protocol(protocol)
 
-        if not source in self.list_ports(protocol):
+        if int(source) not in self.list_ports(protocol):
             return False
 
         return True
@@ -60,7 +70,7 @@ class PortList(dict):
         if not self.has_port(protocol, source):
             raise ValueError("Port {} is not mapped".format(str(source)))
 
-        return self[protocol][source]
+        return self[protocol][int(source)]
 
     def get_tcp_port(self, source):
         return self.get_port(self.PROTO_TCP, source)
@@ -72,7 +82,7 @@ class PortList(dict):
 def port_scan(ip_or_fqdn, port_range=None, shallow=False, force_nmap=False):
     def _nmap(port_list, ip, port_range=None, shallow=False):
         if shallow and port_range is None:
-            port_range = '{}-{}'.format(_MIN_PORT, _MAX_PORT)
+            port_range = '{}-{}'.format(PortList.MIN_PORT, PortList.MAX_PORT)
         scan_args = '-sS' if shallow else '-sV'
 
         port_scanner = nmap.PortScanner()
@@ -114,8 +124,8 @@ def port_scan(ip_or_fqdn, port_range=None, shallow=False, force_nmap=False):
 
 if __name__ == '__main__':
     port_list = PortList()
-    
-    try: 
+
+    try:
         result = port_scan("127.0.0.1")
         import pprint
         pprint.pprint(result)

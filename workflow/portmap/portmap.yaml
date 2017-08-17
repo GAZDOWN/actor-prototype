@@ -1,0 +1,18 @@
+---
+inputs:
+  - name: source_ports 
+    type: PortScanResult
+  
+  - name: target_ports 
+    type: PortScanResult
+
+output:
+  - name: port_mapping
+    type: PortMapResult
+
+type: python
+python:
+  arguments:
+    - @source_ports@
+    - @target_ports@
+  payload: |
