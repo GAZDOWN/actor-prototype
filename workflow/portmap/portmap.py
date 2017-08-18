@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from sets import Set
 from json import dumps
+import sys
 
 
 class PortCollisionException(Exception):
@@ -14,11 +15,18 @@ class PortList(dict):
     MIN_PORT = 1
     MAX_PORT = 65535
 
-    def __init__(self):
+    def __init__(self, src=None):
         super(PortList, self).__init__()
 
         self[self.PROTO_TCP] = {}
         self[self.PROTO_UDP] = {}
+
+        # Copy dict to PortList
+        if src:
+            for proto in self.PROTO_TCP, self.PROTO_UDP:
+                if proto in src.keys():
+                    for port, data in src[proto].items():
+                        self.set_port(proto, port, data)
 
     def _raise_for_protocol(self, protocol):
         if protocol not in self.get_protocols():
@@ -84,6 +92,13 @@ class PortMap(PortList):
 
         if not target:
             target = source
+        elif isinstance(target, list):
+            for port in target:
+                self.set_port(protocol, source, port)
+            return
+
+        source = int(source)
+        target = int(target)
 
         # Check if there isn't map colision on right side
         for used_source, used_tport_set in self[protocol].items():
@@ -91,13 +106,13 @@ class PortMap(PortList):
                 raise PortCollisionException("Target port {} has been already mapped".format(target))
 
         if not self.has_port(protocol, source):
-            # data = Set() ## not possible to serialize
             data = []
         else:
             data = self.get_port(protocol, source)
+            if target in data:
+                return
 
-        # data.add(int(target))
-        data.append(int(target))
+        data.append(target)
 
         super(PortMap, self).set_port(protocol, source, data)
 
@@ -121,23 +136,6 @@ def map_ports(source_ports, target_ports, user_mapped_ports=None, user_excluded_
     user_mapped_ports = user_mapped_ports or PortMap()
     user_excluded_ports = user_excluded_ports or PortList()
 
-    # TODO: change this to PortMap only
-    """
-        remapped_ports structure:
-        {
-            tcp: [
-                [ exposed port on target, source_port ],
-                .
-                .
-                .
-            ]
-            udp: [ ... ]
-        }
-    """
-    # remapped_ports = {
-    #     PortMap.PROTO_TCP: [],
-    #     PortMap.PROTO_UDP: []
-    # }
     remapped_ports = PortMap()
 
     # add user ports which was not discovered
@@ -155,8 +153,6 @@ def map_ports(source_ports, target_ports, user_mapped_ports=None, user_excluded_
     # Static (default) mapping applied only when the source service is available
     if not user_mapped_ports.has_tcp_port(22):
         user_mapped_ports.set_tcp_port(22, 9022)
-
-    print(str(user_excluded_ports))
 
     # remove unwanted ports
     for protocol in user_excluded_ports.get_protocols():
@@ -192,28 +188,26 @@ def map_ports(source_ports, target_ports, user_mapped_ports=None, user_excluded_
                 target_ports.set_port(protocol, target_port)
 
                 # create mapping array
-                # remapped_ports[protocol].append((target_port, source_port))
                 remapped_ports.set_port(protocol, source_port, target_port)
 
     return remapped_ports
 
 
 if __name__ == '__main__':
-    src = PortList()
-    src.set_tcp_port("22", {"name": "ssh"})
-    src.set_tcp_port("80", {"name": "httpd"})
+    #src_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}, "80": {"name": "httpd"}}}
+    #tgt_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}}}
+    #usr_dict = {"udp": {}, "tcp": {"80": [80, 8080], "90": [8090]}}
 
-    tgt = PortList()
-    tgt.set_tcp_port("22", {"name": "ssh"})
+    src_dict = sys.argv[1]
+    tgt_dict = sys.argv[2]
+    usr_dict = sys.argv[3]
+    exc_dict = sys.argv[4]
 
-    usr = PortMap()
-    usr.set_tcp_port("80", "8080")
-    usr.set_tcp_port("80", "80")
+    src = PortList(src_dict)
+    tgt = PortList(tgt_dict)
+    exc = PortList(exc_dict)
+    usr = PortMap(usr_dict)
 
-    print("usr")
-    print(str(usr))
-
-    print("mapping")
-    result = map_ports(src, tgt, usr)
+    result = map_ports(src, tgt, usr, exc)
 
     print(dumps(result))

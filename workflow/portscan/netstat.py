@@ -2,6 +2,7 @@
 import psutil
 import socket
 import nmap
+import json
 
 
 class PortScanException(Exception):
@@ -126,10 +127,8 @@ if __name__ == '__main__':
     port_list = PortList()
 
     try:
-        result = port_scan("127.0.0.1")
-        import pprint
-        pprint.pprint(result)
+        print(json.dumps(port_scan("127.0.0.1")))
 
     except Exception as e:
         pass
-    #    module.fail_json(msg=str(e))
+    #    fail_json(msg=str(e))

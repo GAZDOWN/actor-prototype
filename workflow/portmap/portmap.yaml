@@ -5,6 +5,12 @@ inputs:
   
   - name: target_ports 
     type: PortScanResult
+  
+  - name: user_mapping 
+    type: PortMap
+
+  - name: excluded_ports
+    type: PortList
 
 output:
   - name: port_mapping
@@ -12,7 +18,4 @@ output:
 
 type: python
 python:
-  arguments:
-    - @source_ports@
-    - @target_ports@
   payload: |
