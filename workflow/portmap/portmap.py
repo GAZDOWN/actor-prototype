@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from sets import Set
-from json import dumps
+from json import dumps, load
 import sys
 
 
@@ -194,14 +194,15 @@ def map_ports(source_ports, target_ports, user_mapped_ports=None, user_excluded_
 
 
 if __name__ == '__main__':
+    inputs = load(sys.stdin)
     #src_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}, "80": {"name": "httpd"}}}
     #tgt_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}}}
     #usr_dict = {"udp": {}, "tcp": {"80": [80, 8080], "90": [8090]}}
 
-    src_dict = sys.argv[1]
-    tgt_dict = sys.argv[2]
-    usr_dict = sys.argv[3]
-    exc_dict = sys.argv[4]
+    src_dict = inputs["source_ports"]
+    tgt_dict = inputs["target_ports"]
+    usr_dict = inputs["user_mapping"]
+    exc_dict = inputs["excluded_ports"]
 
     src = PortList(src_dict)
     tgt = PortList(tgt_dict)
