@@ -10,10 +10,8 @@ output:
   - name: source_port_scan
     type: PortScanResult
 
-type: python
-python:
-  arguments:
-    - @shallow@
+executor:
+  type: python
   payload: |
     #!/usr/bin/env python
     import psutil

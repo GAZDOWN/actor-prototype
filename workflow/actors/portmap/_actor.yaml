@@ -1,9 +1,9 @@
 ---
 inputs:
-  - name: source_ports 
+  - name: source_system_ports 
     type: PortScanResult
   
-  - name: target_ports 
+  - name: target_system_ports 
     type: PortScanResult
   
   - name: user_mapping 
@@ -16,8 +16,8 @@ output:
   - name: port_mapping
     type: PortMapResult
 
-type: python
-python:
+executor:
+  type: python
   payload: |
     #!/usr/bin/env python
     from sets import Set
