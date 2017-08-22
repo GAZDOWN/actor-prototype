@@ -1,7 +1,7 @@
 ---
 inputs:
   - name: shallow_scan
-    type: ShallowBool 
+    type: BaseTypeBool 
 
   - name: host
     type: ipOrDNS
