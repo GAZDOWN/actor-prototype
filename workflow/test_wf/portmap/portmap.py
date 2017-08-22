@@ -196,8 +196,11 @@ def map_ports(source_ports, target_ports, user_mapped_ports=None, user_excluded_
 if __name__ == '__main__':
     inputs = load(sys.stdin)
 
+    # Required arguments
     src_dict = inputs["source_system_ports"]
     tgt_dict = inputs["target_system_ports"]
+
+    # Optional arguments
     usr_dict = inputs.get("user_mapping", {})
     exc_dict = inputs.get("excluded_ports", {})
 
@@ -206,6 +209,4 @@ if __name__ == '__main__':
     exc = PortList(exc_dict)
     usr = PortMap(usr_dict)
 
-    result = map_ports(src, tgt, usr, exc)
-
-    print(dumps({"port_mapping": result}))
+    print(dumps({"port_mapping": map_ports(src, tgt, usr, exc)}))

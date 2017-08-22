@@ -142,13 +142,16 @@ executor:
     
     if __name__ == '__main__':
         inputs = json.load(sys.stdin)
+        
+        shallow = inputs.get("shallow_scan").get("value", True)
+        host = inputs.get("host").get("value")
+    
         port_list = PortList()
     
-        try:
-            print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs.get("shallow", True))}))
     
-        except Exception as e:
-            #print(json.dumps(inputs))
-            print(json.dumps({"err": str(e)}))
-            pass
-        #    fail_json(msg=str(e))
+        #try:
+        #print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
+        print(json.dumps({"port_scan_result": port_scan(host, shallow)}))
+        #except Exception as e:
+        #    
+        #    pass

@@ -2,10 +2,14 @@
 workflows:
   - name: test_wf
     init:
-      source_host: 127.0.0.1 
-      source_shallow_scan: True
-      target_host: 127.0.0.1 
-      target_shallow_scan: True
+      source_host:
+        value: 127.0.0.1
+      source_shallow_scan:
+        value: True
+      target_host:
+        value: 127.0.0.1
+      target_shallow_scan:
+        value: True
     tasks:
       #- scan:
       #    - src_portscan

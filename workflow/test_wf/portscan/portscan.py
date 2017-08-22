@@ -7,6 +7,7 @@ import sys
 
 # TODO: Put this into some library so it can be used in multiple actors
 
+
 class PortScanException(Exception):
     pass
 
@@ -127,11 +128,15 @@ def port_scan(ip_or_fqdn, port_range=None, shallow=False, force_nmap=False):
 
 if __name__ == '__main__':
     inputs = json.load(sys.stdin)
+
+    shallow = inputs.get("shallow_scan").get("value", True)
+    host = inputs.get("host").get("value")
+
     port_list = PortList()
 
-    try:
-        print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
-
-    except Exception as e:
-        pass
-    #    fail_json(msg=str(e))
+    # try:
+    # print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
+    print(json.dumps({"port_scan_result": port_scan(host, shallow)}))
+    # except Exception as e:
+    #
+    #    pass
