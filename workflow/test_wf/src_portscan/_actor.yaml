@@ -1,10 +1,10 @@
 ---
 inputs:
   - name: source_host
-    type: ipOrDNS
+    type: BaseTypeString 
 
   - name: source_shallow_scan
-    type: ShallowBool 
+    type: BaseTypeBool
 
 output:
   name: source_system_ports

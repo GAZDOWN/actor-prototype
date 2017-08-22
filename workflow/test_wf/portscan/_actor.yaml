@@ -4,7 +4,7 @@ inputs:
     type: BaseTypeBool 
 
   - name: host
-    type: ipOrDNS
+    type: BaseTypeString 
 
 output:
   - name: port_scan_result 
