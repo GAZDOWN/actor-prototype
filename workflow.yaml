@@ -2,7 +2,8 @@
 workflows:
   - name: test_wf
     tasks:
-      - src_portscan
-      - tgt_portscan
+      - scan:
+          - src_portscan
+          - tgt_portscan
       - portmap
 

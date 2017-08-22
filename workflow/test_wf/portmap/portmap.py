@@ -199,8 +199,8 @@ if __name__ == '__main__':
     #tgt_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}}}
     #usr_dict = {"udp": {}, "tcp": {"80": [80, 8080], "90": [8090]}}
 
-    src_dict = inputs["source_ports"]
-    tgt_dict = inputs["target_ports"]
+    src_dict = inputs["source_system_ports"]
+    tgt_dict = inputs["target_system_ports"]
     usr_dict = inputs["user_mapping"]
     exc_dict = inputs["excluded_ports"]
 

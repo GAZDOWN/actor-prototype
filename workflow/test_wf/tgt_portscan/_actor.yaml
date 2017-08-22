@@ -4,7 +4,7 @@ inputs:
     type: ipOrDNS
 
   - name: shallow
-    type: bool
+    type: ShallowBool
 
 output:
   name: target_system_ports
@@ -17,7 +17,7 @@ extends:
       source: '@target_host@'
 
     - name: shallow
-      source 'shallow'
+      source: '@shallow@'
   output:
-    - name: port_scan_result
-      target: '@target_system_ports@'
+    - name: target_system_ports
+      source: '@port_scan_result@'

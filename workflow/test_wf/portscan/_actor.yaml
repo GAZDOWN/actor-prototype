@@ -1,13 +1,13 @@
 ---
 inputs:
   - name: shallow
-    type: bool
+    type: ShallowBool 
 
   - name: host
     type: ipOrDNS
 
 output:
-  - name: source_port_scan
+  - name: port_scan_result 
     type: PortScanResult
 
 executor:
@@ -145,8 +145,10 @@ executor:
         port_list = PortList()
     
         try:
-            print(json.dumps(port_scan(inputs["host"], inputs["shallow"])))
+            print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
     
         except Exception as e:
+            #print(json.dumps(inputs))
+            print(json.dumps({"err": str(e)}))
             pass
         #    fail_json(msg=str(e))
