@@ -6,7 +6,7 @@ inputs:
   - name: target_shallow_scan
     type: BaseTypeBool 
 
-output:
+outputs:
   name: target_system_ports
   type: PortScanResult 
 
