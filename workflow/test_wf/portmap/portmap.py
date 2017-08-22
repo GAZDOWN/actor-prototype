@@ -195,14 +195,11 @@ def map_ports(source_ports, target_ports, user_mapped_ports=None, user_excluded_
 
 if __name__ == '__main__':
     inputs = load(sys.stdin)
-    #src_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}, "80": {"name": "httpd"}}}
-    #tgt_dict = {"udp": {}, "tcp": {"22": {"name": "ssh"}}}
-    #usr_dict = {"udp": {}, "tcp": {"80": [80, 8080], "90": [8090]}}
 
     src_dict = inputs["source_system_ports"]
     tgt_dict = inputs["target_system_ports"]
-    usr_dict = inputs["user_mapping"]
-    exc_dict = inputs["excluded_ports"]
+    usr_dict = inputs.get("user_mapping", {})
+    exc_dict = inputs.get("excluded_ports", {})
 
     src = PortList(src_dict)
     tgt = PortList(tgt_dict)
@@ -211,4 +208,4 @@ if __name__ == '__main__':
 
     result = map_ports(src, tgt, usr, exc)
 
-    print(dumps(result))
+    print(dumps({"port_mapping": result}))

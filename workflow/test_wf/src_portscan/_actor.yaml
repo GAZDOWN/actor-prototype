@@ -3,7 +3,7 @@ inputs:
   - name: source_host
     type: ipOrDNS
 
-  - name: shallow
+  - name: source_shallow_scan
     type: ShallowBool 
 
 output:
@@ -16,8 +16,8 @@ extends:
     - name: host 
       source: "@source_host@"
 
-    - name: shallow
-      source: '@shallow@'
-  output:
+    - name: shallow_scan
+      source: '@source_shallow_scan@'
+  outputs:
     - name: source_system_ports
       source: '@port_scan_result@'

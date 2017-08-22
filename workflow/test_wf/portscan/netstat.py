@@ -130,7 +130,7 @@ if __name__ == '__main__':
     port_list = PortList()
 
     try:
-        print(json.dumps(port_scan(inputs["host"], inputs["shallow"])))
+        print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
 
     except Exception as e:
         pass

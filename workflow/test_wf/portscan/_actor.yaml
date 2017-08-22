@@ -1,6 +1,6 @@
 ---
 inputs:
-  - name: shallow
+  - name: shallow_scan
     type: ShallowBool 
 
   - name: host
@@ -145,7 +145,7 @@ executor:
         port_list = PortList()
     
         try:
-            print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
+            print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs.get("shallow", True))}))
     
         except Exception as e:
             #print(json.dumps(inputs))
