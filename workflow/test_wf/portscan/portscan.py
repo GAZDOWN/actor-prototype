@@ -129,14 +129,16 @@ def port_scan(ip_or_fqdn, port_range=None, shallow=False, force_nmap=False):
 if __name__ == '__main__':
     inputs = json.load(sys.stdin)
 
-    shallow = inputs.get("shallow_scan").get("value", True)
+    # Required
     host = inputs.get("host").get("value")
 
-    port_list = PortList()
+    # Optional
+    shallow = inputs.get("scan_options").get("shallow_scan", True)
+    force_nmap = inputs.get("scan_options").get("force_nmap", False)
+    port_range = inputs.get("scan_options").get("port_range", None)
 
-    # try:
-    # print(json.dumps({"port_scan_result": port_scan(inputs["host"], inputs["shallow"])}))
-    print(json.dumps({"port_scan_result": port_scan(host, shallow)}))
-    # except Exception as e:
-    #
-    #    pass
+    port_list = PortList()
+    print(json.dumps({"port_scan_result": port_scan(host,
+                                                    shallow=shallow,
+                                                    force_nmap=force_nmap,
+                                                    port_range=port_range)}))

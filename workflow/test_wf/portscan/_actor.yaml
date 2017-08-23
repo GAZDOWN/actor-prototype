@@ -1,10 +1,10 @@
 ---
 inputs:
-  - name: shallow_scan
-    type: BaseTypeBool
-
   - name: host
     type: BaseTypeString
+
+  - name: scan_options 
+    type: TypeScanOptions
 
 outputs:
   - name: port_scan_result

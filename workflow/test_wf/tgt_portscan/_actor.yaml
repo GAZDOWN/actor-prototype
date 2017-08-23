@@ -3,9 +3,6 @@ inputs:
   - name: target_host
     type: BaseTypeString
 
-  - name: target_shallow_scan
-    type: BaseTypeBool
-
 outputs:
   name: target_system_ports
   type: TypePortScan
@@ -16,8 +13,10 @@ extends:
     - name: host
       source: '@target_host@'
 
-    - name: shallow_scan
-      source: '@target_shallow_scan@'
+    - name: scan_options
+      value:
+        shallow_scan: True
+      
   outputs:
     - name: target_system_ports
       source: '@port_scan_result@'
