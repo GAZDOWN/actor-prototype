@@ -137,6 +137,9 @@ if __name__ == '__main__':
     force_nmap = inputs.get("scan_options").get("force_nmap", False)
     port_range = inputs.get("scan_options").get("port_range", None)
 
+    #from pprint import pprint
+    #pprint(port_range)
+
     port_list = PortList()
     print(json.dumps({"port_scan_result": port_scan(host,
                                                     shallow=shallow,

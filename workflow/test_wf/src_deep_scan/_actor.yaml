@@ -1,0 +1,28 @@
+---
+inputs:
+  - name: source_host
+    type: BaseTypeString
+
+  - name: source_system_ports
+    type: TypePortList
+
+outputs:
+  name: source_deep_scan_ports
+  type: TypePortScan
+
+extends:
+  name: portscan
+  inputs:
+    - name: host
+      source: "@source_host@"
+
+    - name: scan_options 
+      value: 
+        shallow_scan: False
+        force_nmap: True
+        #port_range: "@source_system_ports@" # input from shallow scan
+        port_range: "111,9090" # input from shallow scan
+
+  outputs:
+    - name: source_deep_scan_ports
+      source: '@port_scan_result@'
