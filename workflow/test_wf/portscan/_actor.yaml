@@ -1,14 +1,14 @@
 ---
 inputs:
   - name: shallow_scan
-    type: BaseTypeBool 
+    type: BaseTypeBool
 
   - name: host
-    type: BaseTypeString 
+    type: BaseTypeString
 
 outputs:
-  - name: port_scan_result 
-    type: PortScanResult
+  - name: port_scan_result
+    type: TypePortScan
 
 executor:
   type: python

@@ -26,7 +26,7 @@ class TargetPortListField(ArrayField):
                                                   additional_items=False)
 
 
-class PortMapResult(Document):
+class TypePortMap(Document):
     tcp = DictField(pattern_properties={SOURCE_PORT_PATTERN: TargetPortListField()},
                     additional_properties=False)
     udp = DictField(pattern_properties={SOURCE_PORT_PATTERN: TargetPortListField()},

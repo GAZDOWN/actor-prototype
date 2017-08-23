@@ -1,23 +1,21 @@
 ---
 inputs:
-  - name: source_system_ports 
-    type: PortScanResult
-  
-  - name: target_system_ports 
-    type: PortScanResult
-  
-  - name: user_mapping 
-    type: PortMap
+  - name: source_system_ports
+    type: TypePortList
+
+  - name: target_system_ports
+    type: TypePortList
+
+  - name: user_mapping
+    type: TypePortMap
 
   - name: excluded_ports
-    type: PortList
+    type: TypePortList
 
 outputs:
   - name: port_mapping
-    type: PortMapResult
+    type: TypePortMap
 
 executor:
   type: python
   script-file: portmap.py
-
-#  payload: |

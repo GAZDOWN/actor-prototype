@@ -22,7 +22,7 @@ class PortData(Document):
     product = StringField()
 
 
-class PortScanResult(Document):
+class TypePortScan(Document):
     tcp = DictField(pattern_properties={PORT_PATTERN: DocumentField(PortData, as_ref=True)},
                     additional_properties=False)
     udp = DictField(pattern_properties={PORT_PATTERN: DocumentField(PortData, as_ref=True)},

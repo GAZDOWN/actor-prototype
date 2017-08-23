@@ -1,19 +1,19 @@
 ---
 inputs:
   - name: source_host
-    type: BaseTypeString 
+    type: BaseTypeString
 
   - name: source_shallow_scan
     type: BaseTypeBool
 
 outputs:
   name: source_system_ports
-  type: PortScanResult 
+  type: TypePortScan
 
 extends:
   name: portscan
   inputs:
-    - name: host 
+    - name: host
       source: "@source_host@"
 
     - name: shallow_scan
