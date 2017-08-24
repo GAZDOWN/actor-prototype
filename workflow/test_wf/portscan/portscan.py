@@ -4,83 +4,11 @@ import socket
 import nmap
 import json
 import sys
-
-# TODO: Put this into some library so it can be used in multiple actors
+from util import PortList
 
 
 class PortScanException(Exception):
     pass
-
-
-class PortList(dict):
-    PROTO_TCP = "tcp"
-    PROTO_UDP = "udp"
-
-    MIN_PORT = 1
-    MAX_PORT = 65535
-
-    def __init__(self):
-        super(PortList, self).__init__()
-
-        self[self.PROTO_TCP] = {}
-        self[self.PROTO_UDP] = {}
-
-    def _raise_for_protocol(self, protocol):
-        if protocol not in self.get_protocols():
-            raise ValueError("Invalid protocol: {}".format(str(protocol)))
-
-    def set_port(self, protocol, source, data=None):
-        self._raise_for_protocol(protocol)
-
-        if int(source) >= self.MIN_PORT and int(source) <= self.MAX_PORT:
-            self[protocol][int(source)] = data
-        else:
-            raise ValueError("Port must be in interval <{}; {}>".format(self.MIN_PORT, self.MAX_PORT))
-
-    def set_tcp_port(self, source, target=None):
-        self.set_port(self.PROTO_TCP, source, target)
-
-    def unset_port(self, protocol, source):
-        self._raise_for_protocol(protocol)
-
-        if not self.has_port(protocol, source):
-            raise ValueError("Invalid port: {}".format(str(source)))
-
-        del self[protocol][int(source)]
-
-    def unset_tcp_port(self, source):
-        self.unset_port(self.PROTO_TCP, source)
-
-    def list_ports(self, protocol):
-        self._raise_for_protocol(protocol)
-
-        return self[protocol].keys()
-
-    def list_tcp_ports(self):
-        return self.list_ports(self.PROTO_TCP)
-
-    def has_port(self, protocol, source):
-        self._raise_for_protocol(protocol)
-
-        if int(source) not in self.list_ports(protocol):
-            return False
-
-        return True
-
-    def has_tcp_port(self, source):
-        return self.has_port(self.PROTO_TCP, source)
-
-    def get_port(self, protocol, source):
-        if not self.has_port(protocol, source):
-            raise ValueError("Port {} is not mapped".format(str(source)))
-
-        return self[protocol][int(source)]
-
-    def get_tcp_port(self, source):
-        return self.get_port(self.PROTO_TCP, source)
-
-    def get_protocols(self):
-        return self.keys()
 
 
 def port_scan(ip_or_fqdn, port_range=None, shallow=False, force_nmap=False):
@@ -136,9 +64,6 @@ if __name__ == '__main__':
     shallow = inputs.get("scan_options").get("shallow_scan", True)
     force_nmap = inputs.get("scan_options").get("force_nmap", False)
     port_range = inputs.get("scan_options").get("port_range", None)
-
-    #from pprint import pprint
-    #pprint(port_range)
 
     port_list = PortList()
     print(json.dumps({"port_scan_result": port_scan(host,

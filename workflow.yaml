@@ -12,6 +12,6 @@ workflows:
       #    - tgt_portscan
       - src_portscan
       - tgt_portscan
-      - src_deep_scan
+      # - src_deep_scan
       - portmap
 
