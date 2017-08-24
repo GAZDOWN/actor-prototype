@@ -6,6 +6,8 @@ workflows:
         value: 10.10.10.89 
       target_host:
         value: 127.0.0.1
+      container_name:
+        value: "test"
     tasks:
       #- scan:
       #    - src_portscan
@@ -14,4 +16,6 @@ workflows:
       - tgt_portscan
       # - src_deep_scan
       - portmap
+      # - delete_container
+      - delete_container_data
 
