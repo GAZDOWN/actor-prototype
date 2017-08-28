@@ -26,7 +26,7 @@ def execute_tasks(tasks, data):
             execute_tasks(task.itervalues().next(), data)
             continue 
 
-        if not get_actor(task)().execute(data):
+        if not get_actor(task).execute(data):
             raise RuntimeError("Actor {} returned non-zero value".format(task))
 
     return data

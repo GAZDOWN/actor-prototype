@@ -8,14 +8,23 @@ workflows:
         value: 127.0.0.1
       container_name:
         value: "test"
+      storage_path: 
+        value: /tmp/test
+      ssh_options: 
+        value: ""
+      excluded_paths:
+        value:
+          - /tmp
+          - /dev
+          - /proc
     tasks:
       #- scan:
       #    - src_portscan
       #    - tgt_portscan
-      - src_portscan
-      - tgt_portscan
-      # - src_deep_scan
-      - portmap
+      #- src_portscan
+      #- tgt_portscan
+      #- portmap
       # - delete_container
-      - delete_container_data
+      #- delete_container_data
+      - rsync
 
