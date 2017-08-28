@@ -1,0 +1,66 @@
+---
+inputs:
+  - name: source_host
+    type: BaseTypeString
+  
+  - name: target_host
+    type: BaseTypeString
+
+  - name: storage_path
+    type: BaseTypeString
+
+  - name: excluded_paths
+    type: ExcludedPathsList
+
+  - name: ssh_options 
+    type: BaseTypeString
+
+    ## excluded_paths, control_path, config, source_addr, rsync_dir
+
+executor:
+  type: bash
+  arguments:
+    - "@source_host.value@"
+    - "@target_host.value@"
+    - "@storage_path.value@"
+    - "@ssh_options.value@"
+    - "@excluded_paths.value@"
+  payload: |
+    SOURCE_HOST=$1
+    TARGET_HOST=$2
+    STORAGE_PATH=$3
+    SSH_OPTIONS=$4
+    EXCLUDED_PATHS=$5
+    
+    echo $SOURCE_HOST
+
+    # Target check
+    if [ "localhost" != $TARGET_HOST ] && [ "127.0.0.1" != $TARGET_HOST ]; then
+        >&2 echo "Unsupported target"
+        exit 1
+    fi
+
+    # Check path
+    if [ -z $STORAGE_PATH ]; then
+        >&2 echo "Storage path must be set"
+        exit 1
+    fi
+
+    #for path in $EXCLUDED_PATHS; do
+    #done
+   
+
+    # Setting up the SSH options parameter
+    if [ ! -z $SSH_OPTIONS ]; then
+        SSH_OPTIONS=" -o $SSH_OPTIONS" 
+    fi
+
+    #rsync -aAX -r $EXCLUDE_OPTS -e "ssh ${SSH_OPTIONS}" ${SOURCE_HOST}:/ $STORAGE_PATH
+    echo "rsync -aAX -r $EXCLUDE_OPTS -e \"ssh${SSH_OPTIONS}\" ${SOURCE_HOST}:/ $STORAGE_PATH"
+
+
+    # HOST=$1
+    # OPTIONS=$2
+    # CONTROL_PATH="-o ControlPath=\"${HOME}/.ssh/ctl/%L-%r@%h:%p\""
+    # CONTROL_PATH="-o ControlPath=\"${HOME}/.ssh/ctl/%L-%r@%h:%p\""
+    # ssh -nNf -o ControlMaster=yes $CONTROL_PATH $OPTIONS -4 $HOST

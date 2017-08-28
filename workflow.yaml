@@ -3,7 +3,7 @@ workflows:
   - name: test_wf
     init:
       source_host:
-        value: 10.10.10.89 
+        value: 192.168.121.237 
       target_host:
         value: 127.0.0.1
       container_name:
@@ -11,7 +11,7 @@ workflows:
       storage_path: 
         value: /tmp/test
       ssh_options: 
-        value: ""
+        value: "User=root"
       excluded_paths:
         value:
           - /tmp
