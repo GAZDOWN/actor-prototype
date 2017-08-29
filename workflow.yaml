@@ -12,6 +12,8 @@ workflows:
         value: /tmp/test
       ssh_options: 
         value: "User=root"
+      #csv_excluded_paths:
+      #  value: "/tmp, /dev, /proc"
       excluded_paths:
         value:
           - /tmp
@@ -26,5 +28,7 @@ workflows:
       #- portmap
       # - delete_container
       #- delete_container_data
+      #
+      - excluded_paths_to_csv
       - rsync
 
