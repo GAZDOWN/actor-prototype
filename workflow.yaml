@@ -30,5 +30,6 @@ workflows:
       #- delete_container_data
       #
       - excluded_paths_to_csv
-      - rsync
+      #- group_test
+      #- rsync
 

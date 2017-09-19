@@ -1,20 +1,25 @@
 ---
 inputs:
   - name: source_system_ports
-    type: TypePortScan
+    type:
+      name: TypePortScan
 
   - name: target_system_ports
-    type: TypePortScan
+    type:
+      name: TypePortScan
 
   - name: user_mapping
-    type: TypePortMap
+    type:
+      name: TypePortMap
 
   - name: excluded_ports
-    type: TypePortScan
+    type:
+      name: TypePortScan
 
 outputs:
   - name: port_mapping
-    type: TypePortMap
+    type:
+      name: TypePortMap
 
 executor:
   type: python

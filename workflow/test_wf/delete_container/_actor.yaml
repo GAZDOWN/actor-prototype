@@ -1,7 +1,8 @@
 ---
 inputs:
   - name: container_name
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
 executor:
   type: bash

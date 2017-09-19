@@ -1,19 +1,24 @@
 ---
 inputs:
   - name: source_host
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
   
   - name: target_host
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
   - name: storage_path
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
   - name: csv_excluded_paths
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
   - name: ssh_options 
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
 executor:
   type: bash

@@ -1,11 +1,13 @@
 ---
 inputs:
   - name: source_host
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
 outputs:
   name: source_system_ports
-  type: TypePortScan
+  type:
+    name: TypePortScan
 
 extends:
   name: portscan

@@ -5,7 +5,7 @@ import os
 from pprint import pprint
 import logging
 import snactor.executors
-from snactor.loader import load, load_schemas
+from snactor.loader import load, load_schemas, validate_actor_types
 from snactor.registry import get_actor
 
 WF_PATH = "workflow"
@@ -49,6 +49,7 @@ if __name__ == "__main__":
         #load_schemas(build_path(["workflow", wf_name, "portscan", "schema"]))
 
         load(build_path(["workflow", wf_name]))
+        validate_actor_types()
         execute_tasks(workflow.get("tasks"), in_data)
 
         print("======================================================")

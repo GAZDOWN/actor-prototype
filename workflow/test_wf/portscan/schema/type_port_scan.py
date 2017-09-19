@@ -1,6 +1,8 @@
 from jsl import Document
 from jsl.fields import DictField, StringField, DocumentField
+from snactor.registry.schemas import registered_schema
 
+SCHEMA_VERSION="1.0"
 
 # PORT_PATTERN =     1 -  9999
 #                10000 - 59999
@@ -22,8 +24,10 @@ class PortData(Document):
     product = StringField()
 
 
+@registered_schema("1.0")
 class TypePortScan(Document):
     tcp = DictField(pattern_properties={PORT_PATTERN: DocumentField(PortData, as_ref=True)},
                     additional_properties=False)
     udp = DictField(pattern_properties={PORT_PATTERN: DocumentField(PortData, as_ref=True)},
                     additional_properties=False)
+

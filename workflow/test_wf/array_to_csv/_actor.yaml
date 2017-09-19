@@ -1,11 +1,13 @@
 ---
 inputs:
   - name: string_list
-    type: TypeStringList
+    type: 
+      name: TypeStringList
   
 outputs:
   - name: csv_string 
-    type: BaseTypeString
+    type: 
+      name: BaseTypeString
 
 executor:
   type: python
@@ -19,7 +21,7 @@ executor:
 
     for item in inputs:
         if len(output_str):
-            output_str += ", "
+            output_str += ","
         output_str += str(item)
 
     print(dumps({"csv_string": {"value": output_str}}))

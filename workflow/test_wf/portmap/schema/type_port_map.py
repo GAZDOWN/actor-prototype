@@ -1,5 +1,6 @@
 from jsl import Document
 from jsl.fields import DictField, IntField, ArrayField
+from snactor.registry.schemas import registered_schema
 
 
 SOURCE_PORT_PATTERN = "^[1-9][0-9]{0,3}$|" \
@@ -26,8 +27,10 @@ class TargetPortListField(ArrayField):
                                                   additional_items=False)
 
 
+@registered_schema("1.0")
 class TypePortMap(Document):
     tcp = DictField(pattern_properties={SOURCE_PORT_PATTERN: TargetPortListField()},
                     additional_properties=False)
     udp = DictField(pattern_properties={SOURCE_PORT_PATTERN: TargetPortListField()},
                     additional_properties=False)
+

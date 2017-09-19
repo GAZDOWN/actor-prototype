@@ -1,10 +1,12 @@
 ---
 inputs:
   - name: leapp_root 
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
   
   - name: container_name 
-    type: BaseTypeString
+    type:
+      name: BaseTypeString
 
 
 executor:
